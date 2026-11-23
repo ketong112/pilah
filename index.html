@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pilah — Panduan Pilah Sampah Rumah Tangga</title>
+<meta name="description" content="Pilah: cari tahu sampah rumah tangga masuk tong yang mana, latih kemampuanmu lewat kuis, dan hitung berapa sampah yang bisa kamu alihkan dari TPA.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>🗑️ Pilah</h1>
+    <p class="tagline">Sampah apa pun, tahu tongnya. Panduan pilah sampah rumah tangga — tanpa internet, tanpa akun, tanpa biaya.</p>
+    <nav class="hero-nav">
+      <a href="#panduan">Panduan</a>
+      <a href="#kuis">Kuis</a>
+      <a href="#dampak">Kalkulator Dampak</a>
+      <a href="#bank-sampah">Bank Sampah</a>
+      <a href="#masalah">Masalah Sampah</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ======= PANDUAN ======= -->
+  <section id="panduan">
+    <h2>Panduan: sampah ini masuk tong apa?</h2>
+    <p>Ketik nama barangnya, atau saring berdasarkan kategori. Klik barangnya untuk melihat cara membuangnya.</p>
+
+    <div class="search-row">
+      <input id="search" type="search" placeholder="Cari barang, mis. botol plastik, sisa nasi, baterai…" aria-label="Cari barang sampah">
+    </div>
+    <div class="chips" role="group" aria-label="Saring berdasarkan kategori">
+      <button class="chip active" type="button" data-filter="all">Semua</button>
+      <button class="chip" type="button" data-filter="organic">🟢 Organik</button>
+      <button class="chip" type="button" data-filter="recyclable">🔵 Daur Ulang</button>
+      <button class="chip" type="button" data-filter="hazardous">🔴 Berbahaya (B3)</button>
+      <button class="chip" type="button" data-filter="residual">⚪ Residu</button>
+    </div>
+    <p id="item-count" class="count" aria-live="polite"></p>
+    <div id="item-list" class="item-list"></div>
+    <p id="no-results" class="no-results" style="display:none">Tidak ada barang yang cocok. Coba kata kunci lain, atau cek ejaannya.</p>
+
+    <div class="legend">
+      <div><span class="dot" style="background:#2e7d32"></span><strong>Organik — Tong hijau.</strong> Sisa makanan dan sampah kebun. Bisa dikompos.</div>
+      <div><span class="dot" style="background:#1565c0"></span><strong>Daur Ulang — Tong biru.</strong> Plastik, kaca, logam, kertas, dan karton yang bersih dan kering.</div>
+      <div><span class="dot" style="background:#c62828"></span><strong>Berbahaya (B3) — Tong merah.</strong> Baterai, elektronik, obat, dan bahan kimia. Jangan dibuang ke tong biasa.</div>
+      <div><span class="dot" style="background:#616161"></span><strong>Residu — Tong abu-abu.</strong> Sisanya: terkontaminasi, bahan campuran, atau tidak bisa didaur ulang.</div>
+    </div>
+  </section>
+
+  <!-- ======= KUIS ======= -->
+  <section id="kuis">
+    <h2>Kuis: tong yang mana?</h2>
+    <p>10 barang acak, satu ronde. Pilih tong yang benar untuk setiap barang, lalu lihat skormu.</p>
+
+    <div id="quiz-start" class="quiz-box">
+      <p>Siap menguji kemampuan memilahmu?</p>
+      <button id="quiz-start-btn" class="btn-primary" type="button">Mulai kuis</button>
+    </div>
+
+    <div id="quiz-play" class="quiz-box" style="display:none">
+      <p id="quiz-progress" class="quiz-progress"></p>
+      <p class="quiz-question">Barang ini masuk tong apa?</p>
+      <p id="quiz-item" class="quiz-item"></p>
+      <div id="quiz-options" class="quiz-options"></div>
+      <p id="quiz-feedback" class="quiz-feedback" aria-live="polite"></p>
+      <button id="quiz-next" class="btn-primary" type="button" style="display:none">Soal berikutnya</button>
+    </div>
+
+    <div id="quiz-result" class="quiz-box" style="display:none">
+      <p class="quiz-question">Skormu:</p>
+      <p id="quiz-score" class="quiz-score"></p>
+      <p id="quiz-message"></p>
+      <button id="quiz-retry" class="btn-primary" type="button">Main lagi</button>
+    </div>
+  </section>
+
+  <!-- ======= KALKULATOR DAMPAK ======= -->
+  <section id="dampak">
+    <h2>Kalkulator dampak: seberapa besar perubahanmu?</h2>
+    <p>Memilah di sumber adalah cara termurah mengurangi sampah ke TPA. Hitung perkiraan dampak rumah tanggamu.</p>
+
+    <div class="calc-box">
+      <label for="calc-people">Jumlah anggota rumah tangga
+        <input id="calc-people" type="number" min="1" max="20" value="4">
+      </label>
+      <label for="calc-days">Berapa hari seminggu kamu memilah sampah?
+        <input id="calc-days" type="number" min="0" max="7" value="5">
+      </label>
+      <div class="calc-results">
+        <div class="calc-result"><span class="calc-num" id="calc-kg">—</span><span class="calc-label">sampah dialihkan dari TPA</span></div>
+        <div class="calc-result"><span class="calc-num" id="calc-co2">—</span><span class="calc-label">CO₂e yang dihindari</span></div>
+        <div class="calc-result"><span class="calc-num" id="calc-year">—</span><span class="calc-label">sampah dialihkan per tahun</span></div>
+      </div>
+      <p id="calc-summary" class="calc-summary"></p>
+      <details class="assumptions">
+        <summary>Asumsi perhitungan (klik untuk melihat)</summary>
+        <ul>
+          <li>Rata-rata sampah rumah tangga: <strong>0,7 kg per orang per hari</strong> (angka umum untuk Indonesia; KLHK dan kajian sampah rumah tangga memakai kisaran 0,68–0,7 kg/kapita/hari).</li>
+          <li>Bagian yang bisa dialihkan saat memilah: <strong>60%</strong> — sampah organik (mayoritas sampah rumah tangga Indonesia) yang bisa dikompos, ditambah plastik, kaca, logam, dan kertas yang bisa didaur ulang.</li>
+          <li>CO₂ yang dihindari: <strong>1 kg CO₂e per kg sampah yang dialihkan</strong> — perkiraan campuran yang konservatif. Mengompos sampah organik menghindari gas metana dari TPA, dan mendaur ulang menghemat energi produksi baru (faktor US EPA WARM untuk daur ulang campuran jauh lebih tinggi; angka 1 kg dipakai sebagai batas bawah yang aman).</li>
+          <li>Ini perkiraan, bukan pengukuran. Dampak nyata tergantung jenis sampah, jarak ke TPA, dan apakah sampah organik benar-benar dikompos.</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <!-- ======= BANK SAMPAH ======= -->
+  <section id="bank-sampah">
+    <h2>Bank sampah: sampahmu bisa jadi uang</h2>
+    <p>Bank sampah adalah sistem pengelolaan sampah berbasis masyarakat. Warga memilah sampah dari rumah, lalu menyetorkannya ke bank sampah — sampah ditimbang dan dicatat seperti tabungan, dan bisa ditukar dengan uang atau barang. Model ini sudah berjalan di ribuan titik di Indonesia sejak program Kementerian Lingkungan Hidup.</p>
+    <h3>Yang biasanya diterima bank sampah</h3>
+    <ul>
+      <li><strong>Plastik:</strong> botol PET, gelas plastik, HDPE, kantong plastik bersih.</li>
+      <li><strong>Kertas dan kardus:</strong> koran, majalah, kardus, kertas kantor.</li>
+      <li><strong>Logam:</strong> kaleng aluminium, kaleng, besi dan logam bekas.</li>
+      <li><strong>Kaca:</strong> botol dan stoples kaca.</li>
+      <li><strong>Minyak goreng bekas:</strong> dikumpulkan untuk biodiesel.</li>
+      <li><strong>Barang elektronik kecil dan baterai:</strong> disalurkan ke pengepul resmi.</li>
+    </ul>
+    <h3>Nilai perkiraan per kilo (indikatif, Indonesia)</h3>
+    <p>Harga berubah-ubah menurut daerah dan pengepul. Angka di bawah ini gambaran kasar per 2025–2026, bukan harga yang dijamin:</p>
+    <table class="price-table">
+      <thead><tr><th>Barang</th><th>Perkiraan harga / kg</th></tr></thead>
+      <tbody>
+        <tr><td>Botol plastik PET</td><td>Rp 2.000 – 4.000</td></tr>
+        <tr><td>Kardus</td><td>Rp 1.500 – 2.500</td></tr>
+        <tr><td>Koran / kertas</td><td>Rp 1.000 – 2.000</td></tr>
+        <tr><td>Kaleng aluminium</td><td>Rp 8.000 – 15.000</td></tr>
+        <tr><td>Besi / logam bekas</td><td>Rp 2.000 – 4.000</td></tr>
+        <tr><td>Botol kaca</td><td>Rp 200 – 500</td></tr>
+        <tr><td>Minyak goreng bekas</td><td>Rp 5.000 – 8.000 / liter</td></tr>
+      </tbody>
+    </table>
+    <h3>Kenapa memilah itu penting?</h3>
+    <ul>
+      <li><strong>TPA cepat penuh.</strong> Sampah yang tidak dipilah berakhir di TPA dan menumpuk. Banyak TPA di Indonesia sudah melebihi kapasitas.</li>
+      <li><strong>Metana.</strong> Sampah organik yang membusuk di TPA menghasilkan gas metana — gas rumah kaca yang jauh lebih kuat daripada CO₂.</li>
+      <li><strong>Pemulung dan pendaur ulang.</strong> Sampah yang sudah dipilah bersih lebih mudah dan lebih aman dikumpulkan oleh pemulung dan pengepul — dan nilainya lebih tinggi.</li>
+      <li><strong>Air dan tanah.</strong> Baterai dan bahan kimia yang masuk TPA bisa mencemari air tanah.</li>
+    </ul>
+    <p>Cari bank sampah terdekat lewat dinas lingkungan hidup daerahmu atau komunitas lingkungan setempat. Kalau belum ada di daerahmu, mulai dari skala RT: satu titik kumpul, satu jadwal setoran per minggu.</p>
+  </section>
+
+  <!-- ======= MASALAH SAMPAH ======= -->
+  <section id="masalah">
+    <h2>Masalah sampah — dan cara kami mengukurnya</h2>
+    <p>Indonesia menghasilkan sekitar <strong>19–20 juta ton sampah rumah tangga per tahun</strong>, dan sekitar <strong>60% di antaranya berakhir di TPA atau tempat pembuangan terbuka</strong> (data KLHK dan Sistem Informasi Pengelolaan Sampah Nasional). Sebagian besar sampah itu organik — sampah yang sebenarnya bisa dikompos — ditambah plastik, kertas, dan kaca yang bisa didaur ulang. Masalahnya bukan sampahnya tidak berguna, tapi sampahnya tidak dipilah di sumber.</p>
+    <p>Memilah di rumah adalah tuas termurah: tanpa truk baru, tanpa pabrik baru, hanya kebiasaan. Satu rumah tangga yang memilah 5 hari seminggu bisa mengalihkan puluhan kilo sampah dari TPA setiap bulan.</p>
+    <p><strong>Cara Pilah mengukur dampak:</strong> kalkulator di atas menghitung kilogram sampah yang dialihkan dari TPA dan CO₂e yang dihindari, berdasarkan jumlah anggota rumah tangga dan berapa hari seminggu mereka memilah — dengan asumsi yang ditulis terbuka di bawah kalkulator. Kuis mengukur pengetahuan: skor kuis menunjukkan seberapa siap seseorang memilah dengan benar. Dua angka itu — kg yang dialihkan dan akurasi kuis — adalah ukuran dampak aplikasi ini.</p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><strong>Pilah</strong> — panduan pilah sampah rumah tangga. Aplikasi statis: tanpa server, tanpa akun, tanpa pelacakan. Bekerja offline setelah halaman dimuat.</p>
+    <p>Dibuat untuk Arbiter Hacks V1, jalur tema “Rethinking Waste”. Data sampah disusun berdasarkan aturan pemilahan rumah tangga standar. Harga bank sampah bersifat indikatif.</p>
+  </div>
+</footer>
+
+<!-- ======= MODAL DETAIL ======= -->
+<div id="modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+  <div class="modal-card">
+    <button id="modal-close" class="modal-close" type="button" aria-label="Tutup">✕</button>
+    <h3 id="modal-title"></h3>
+    <p><span id="modal-badge" class="modal-badge"></span></p>
+    <h4>Cara membuangnya:</h4>
+    <ol id="modal-steps"></ol>
+    <p class="modal-tip">💡 <span id="modal-tip"></span></p>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
